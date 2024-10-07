@@ -81,8 +81,8 @@ function saveAsImage() {
     const ctx = canvas.getContext('2d');
 
     // 設置更高的解析度
-    const scale = 10;  // 增加到10倍解析度以提高精確度
-    const canvasSize = 150;
+    const scale = 10;
+    const canvasSize = 180; // 增加畫布大小以容納間距
     canvas.width = canvasSize * scale;
     canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
@@ -91,13 +91,13 @@ function saveAsImage() {
     ctx.fillStyle = '#2b4b8c';
     ctx.fillRect(0, 0, canvasSize, canvasSize);
 
-    // 繪製選擇區域的圓形格子
+    // 調整圓形位置以增加間距
     const positions = [
-        {x: 75, y: 75},  // 中
-        {x: 25, y: 75},  // 左
-        {x: 125, y: 75}, // 右
-        {x: 75, y: 25},  // 上
-        {x: 75, y: 125}  // 下
+        {x: 90, y: 90},   // 中
+        {x: 30, y: 90},   // 左
+        {x: 150, y: 90},  // 右
+        {x: 90, y: 30},   // 上
+        {x: 90, y: 150}   // 下
     ];
 
     // 繪製棋子
@@ -123,7 +123,6 @@ function saveAsImage() {
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
             
-            // 確保文字完全居中
             ctx.fillText(slotElement.textContent, x, y);
         }
     });
