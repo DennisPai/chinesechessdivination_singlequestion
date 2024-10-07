@@ -83,67 +83,54 @@ function saveAsImage() {
     const canvas = document.createElement('canvas');
     canvas.width = 1024;
     canvas.height = 1024;
-    const ctx = canvas.getContext('2d', { alpha: false });
-
-    // 启用抗锯齿
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
+    const ctx = canvas.getContext('2d');
 
     // 设置canvas背景
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 定义十字布局
-    const layout = [
-        [0, 1, 0],
-        [1, 1, 1],
-        [0, 1, 0]
-    ];
-
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
     const cellSize = canvas.width / 3;
-    const borderWidth = 2;
 
-    // 绘制十字型布局
+    // 绘制十字形框架
     ctx.strokeStyle = '#ccc';
-    ctx.lineWidth = borderWidth;
-    
-    layout.forEach((row, i) => {
-        row.forEach((cell, j) => {
-            if (cell) {
-                ctx.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize);
-            }
-        });
-    });
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    // 垂直线
+    ctx.moveTo(centerX, centerY - cellSize);
+    ctx.lineTo(centerX, centerY + cellSize);
+    // 水平线
+    ctx.moveTo(centerX - cellSize, centerY);
+    ctx.lineTo(centerX + cellSize, centerY);
+    ctx.stroke();
+
+    // 定义棋子位置
+    const positions = [
+        { x: centerX, y: centerY },           // 中
+        { x: centerX - cellSize, y: centerY }, // 左
+        { x: centerX + cellSize, y: centerY }, // 右
+        { x: centerX, y: centerY - cellSize }, // 上
+        { x: centerX, y: centerY + cellSize }  // 下
+    ];
 
     // 绘制棋子
-    const slots = [
-        {index: 1, x: 1, y: 1}, // 中
-        {index: 2, x: 0, y: 1}, // 左
-        {index: 3, x: 2, y: 1}, // 右
-        {index: 4, x: 1, y: 0}, // 上
-        {index: 5, x: 1, y: 2}  // 下
-    ];
-
+    ctx.font = 'bold 100px Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = `bold ${cellSize * 0.6}px Arial, sans-serif`;
 
-    slots.forEach(slot => {
-        const slotElement = document.getElementById(`slot-${slot.index}`);
-        if (slotElement && slotElement.textContent) {
-            ctx.fillStyle = slotElement.classList.contains('red-piece') ? 'red' : 'black';
-            const x = (slot.x + 0.5) * cellSize;
-            const y = (slot.y + 0.5) * cellSize;
-            
-            // 绘制一个浅色背景圆形
+    selectedPieces.forEach((piece, index) => {
+        if (index < positions.length) {
+            const pos = positions[index];
+            // 绘制背景圆
             ctx.beginPath();
-            ctx.arc(x, y, cellSize * 0.4, 0, Math.PI * 2);
-            ctx.fillStyle = slotElement.classList.contains('red-piece') ? 'rgba(255, 200, 200, 0.5)' : 'rgba(200, 200, 200, 0.5)';
+            ctx.arc(pos.x, pos.y, cellSize / 3, 0, Math.PI * 2);
+            ctx.fillStyle = piece.color === 'red' ? 'rgba(255,200,200,0.5)' : 'rgba(200,200,200,0.5)';
             ctx.fill();
-
+            
             // 绘制棋子文字
-            ctx.fillStyle = slotElement.classList.contains('red-piece') ? 'red' : 'black';
-            ctx.fillText(slotElement.textContent, x, y);
+            ctx.fillStyle = piece.color;
+            ctx.fillText(piece.name, pos.x, pos.y);
         }
     });
 
