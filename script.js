@@ -84,7 +84,7 @@ function saveAsImage() {
 
     // 保持之前的解析度設置
     const scale = 10;
-    const canvasSize = 500; // 增加畫布大小以避免裁切
+    const canvasSize = 750; // 增加畫布大小以避免裁切
     canvas.width = canvasSize * scale;
     canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
