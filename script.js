@@ -82,7 +82,7 @@ function saveAsImage() {
 
     // 保持之前的解析度設置
     const scale = 10;
-    const canvasSize = 400; // 增加畫布大小以容納更多間距
+    const canvasSize = 200; // 調整畫布大小以適應新的間距
     canvas.width = canvasSize * scale;
     canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
@@ -91,13 +91,18 @@ function saveAsImage() {
     ctx.fillStyle = '#2b4b8c';
     ctx.fillRect(0, 0, canvasSize, canvasSize);
 
-    // 調整圓形位置以增加間距
+    // 調整圓形位置以設置20px的間距
+    const circleRadius = 35;
+    const centerX = canvasSize / 2;
+    const centerY = canvasSize / 2;
+    const distance = circleRadius * 2 + 20; // 20px 的間距
+
     const positions = [
-        {x: 200, y: 200},  // 中
-        {x: 80, y: 200},   // 左
-        {x: 320, y: 200},  // 右
-        {x: 200, y: 80},   // 上
-        {x: 200, y: 320}   // 下
+        {x: centerX, y: centerY},              // 中
+        {x: centerX - distance, y: centerY},   // 左
+        {x: centerX + distance, y: centerY},   // 右
+        {x: centerX, y: centerY - distance},   // 上
+        {x: centerX, y: centerY + distance}    // 下
     ];
 
     // 繪製棋子
@@ -110,7 +115,7 @@ function saveAsImage() {
             
             // 繪製圓形背景
             ctx.beginPath();
-            ctx.arc(x, y, 35, 0, 2 * Math.PI); // 稍微增大圓圈尺寸
+            ctx.arc(x, y, circleRadius, 0, 2 * Math.PI);
             ctx.fillStyle = 'white';
             ctx.fill();
             ctx.strokeStyle = isRed ? 'red' : 'black';
@@ -118,12 +123,17 @@ function saveAsImage() {
             ctx.stroke();
 
             // 繪製文字
-            ctx.font = 'bold 40px "Microsoft YaHei", "微軟正黑體", sans-serif'; // 增大字體
+            ctx.font = 'bold 40px "Microsoft YaHei", "微軟正黑體", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
             
-            ctx.fillText(slotElement.textContent, x, y);
+            // 使用 measureText 來精確計算文字位置
+            const textMetrics = ctx.measureText(slotElement.textContent);
+            const textHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+            const yOffset = (textHeight / 2) - textMetrics.actualBoundingBoxAscent;
+            
+            ctx.fillText(slotElement.textContent, x, y - yOffset);
         }
     });
 
