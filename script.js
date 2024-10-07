@@ -1,3 +1,76 @@
+const chessPieces = [
+    {name: '帥', limit: 1, color: 'red'}, {name: '仕', limit: 2, color: 'red'}, 
+    {name: '相', limit: 2, color: 'red'}, {name: '俥', limit: 2, color: 'red'}, 
+    {name: '傌', limit: 2, color: 'red'}, {name: '炮', limit: 2, color: 'red'}, 
+    {name: '兵', limit: 5, color: 'red'},
+    {name: '將', limit: 1, color: 'black'}, {name: '士', limit: 2, color: 'black'}, 
+    {name: '象', limit: 2, color: 'black'}, {name: '車', limit: 2, color: 'black'}, 
+    {name: '馬', limit: 2, color: 'black'}, {name: '包', limit: 2, color: 'black'}, 
+    {name: '卒', limit: 5, color: 'black'}
+];
+
+const keyMapping = 'QWERTYUASDFGHJ';
+let selectedPieces = [];
+let remainingPieces = [...chessPieces];
+
+function initializeChessBoard() {
+    const chessBoard = document.getElementById('chessBoard');
+    chessPieces.forEach((piece, index) => {
+        const pieceElement = document.createElement('div');
+        pieceElement.className = `chess-piece ${piece.color}-piece`;
+        pieceElement.textContent = piece.name;
+        pieceElement.dataset.index = index;
+        pieceElement.onclick = () => selectPiece(index);
+        chessBoard.appendChild(pieceElement);
+    });
+}
+
+function selectPiece(index) {
+    const piece = remainingPieces[index];
+    if (piece && piece.limit > 0 && selectedPieces.length < 5) {
+        selectedPieces.push(piece);
+        updateSelectionArea();
+        piece.limit--;
+        if (piece.limit === 0) {
+            remainingPieces[index] = null;
+            document.querySelector(`.chess-piece[data-index="${index}"]`).style.visibility = 'hidden';
+        }
+    }
+}
+
+function updateSelectionArea() {
+    const slots = [1, 2, 3, 4, 5]; // 中、左、右、上、下
+    slots.forEach((slot, index) => {
+        const slotElement = document.getElementById(`slot-${slot}`);
+        if (selectedPieces[index]) {
+            slotElement.textContent = selectedPieces[index].name;
+            slotElement.className = `selection-slot ${selectedPieces[index].color}-piece`;
+        } else {
+            slotElement.textContent = '';
+            slotElement.className = 'selection-slot';
+        }
+    });
+}
+
+function resetSelection() {
+    selectedPieces = [];
+    remainingPieces = [...chessPieces];
+    updateSelectionArea();
+    document.querySelectorAll('.chess-piece').forEach(element => {
+        element.style.visibility = 'visible';
+    });
+}
+
+function undoLastSelection() {
+    if (selectedPieces.length > 0) {
+        const lastPiece = selectedPieces.pop();
+        const index = chessPieces.findIndex(p => p.name === lastPiece.name && p.color === lastPiece.color);
+        remainingPieces[index] = chessPieces[index];
+        document.querySelector(`.chess-piece[data-index="${index}"]`).style.visibility = 'visible';
+        updateSelectionArea();
+    }
+}
+
 function saveAsImage() {
     console.log('开始保存高分辨率图片');
     const canvas = document.createElement('canvas');
@@ -61,3 +134,27 @@ function saveAsImage() {
         console.error('创建或下载高分辨率图片时出错:', error);
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeChessBoard();
+    
+    document.getElementById('resetBtn').onclick = resetSelection;
+    document.getElementById('undoBtn').onclick = undoLastSelection;
+    
+    const saveBtn = document.getElementById('saveBtn');
+    if (saveBtn) {
+        saveBtn.onclick = function() {
+            console.log('保存按钮被点击');
+            saveAsImage();
+        };
+    } else {
+        console.error('未找到保存按钮');
+    }
+    
+    document.addEventListener('keydown', (event) => {
+        const index = keyMapping.indexOf(event.key.toUpperCase());
+        if (index !== -1) {
+            selectPiece(index);
+        }
+    });
+});
