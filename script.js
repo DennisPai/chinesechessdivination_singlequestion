@@ -81,13 +81,13 @@ function saveAsImage() {
     const ctx = canvas.getContext('2d');
 
     // 設置更高的解析度
-    const scale = 4;  // 增加4倍解析度
+    const scale = 8;  // 增加到8倍解析度以提高精確度
     canvas.width = 150 * scale;
     canvas.height = 150 * scale;
     ctx.scale(scale, scale);
 
     // 設置canvas背景
-    ctx.fillStyle = '#2b4b8c';  // 改回原本的深藍色背景
+    ctx.fillStyle = '#2b4b8c';
     ctx.fillRect(0, 0, 150, 150);
 
     // 繪製選擇區域的圓形格子
@@ -121,16 +121,22 @@ function saveAsImage() {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
-            ctx.fillText(slotElement.textContent, x, y);
+            
+            // 微調文字位置以確保完全居中
+            ctx.fillText(slotElement.textContent, x, y + 1);
         }
     });
+
+    // 獲取輸入的文字作為檔名
+    const inputText = document.getElementById('textInput').value.trim();
+    const fileName = inputText ? `${inputText}.png` : '象棋選擇.png';
 
     // 創建下載連結
     try {
         const dataUrl = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = '象棋選擇.png';
+        link.download = fileName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -139,6 +145,7 @@ function saveAsImage() {
         console.error('創建或下載圖片時出錯:', error);
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeChessBoard();
