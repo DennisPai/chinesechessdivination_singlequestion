@@ -121,8 +121,8 @@ function saveAsImage() {
 
             // 繪製文字
             ctx.font = 'bold 50px "Microsoft YaHei", "微軟正黑體", sans-serif'; // 增大字體大小
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center'-3;
+            ctx.textBaseline = 'middle'-3;
             ctx.fillStyle = isRed ? 'red' : 'black';
             
             ctx.fillText(slotElement.textContent, x, y);
