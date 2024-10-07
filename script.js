@@ -39,7 +39,7 @@ function selectPiece(index) {
 }
 
 function updateSelectionArea() {
-    const slots = [1, 2, 3, 4, 5]; // 中、左、右、上、下
+    const slots = [1, 2, 3, 4, 5];
     slots.forEach((slot, index) => {
         const slotElement = document.getElementById(`slot-${slot}`);
         if (selectedPieces[index]) {
@@ -81,14 +81,15 @@ function saveAsImage() {
     const ctx = canvas.getContext('2d');
 
     // 設置更高的解析度
-    const scale = 8;  // 增加到8倍解析度以提高精確度
-    canvas.width = 150 * scale;
-    canvas.height = 150 * scale;
+    const scale = 10;  // 增加到10倍解析度以提高精確度
+    const canvasSize = 150;
+    canvas.width = canvasSize * scale;
+    canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
 
     // 設置canvas背景
     ctx.fillStyle = '#2b4b8c';
-    ctx.fillRect(0, 0, 150, 150);
+    ctx.fillRect(0, 0, canvasSize, canvasSize);
 
     // 繪製選擇區域的圓形格子
     const positions = [
@@ -122,8 +123,8 @@ function saveAsImage() {
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
             
-            // 微調文字位置以確保完全居中
-            ctx.fillText(slotElement.textContent, x, y + 1);
+            // 確保文字完全居中
+            ctx.fillText(slotElement.textContent, x, y);
         }
     });
 
@@ -145,7 +146,6 @@ function saveAsImage() {
         console.error('創建或下載圖片時出錯:', error);
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeChessBoard();
