@@ -84,7 +84,7 @@ function saveAsImage() {
 
     // 保持之前的解析度設置
     const scale = 10;
-    const canvasSize = 180; // 調整畫布大小以適應新的間距
+    const canvasSize = 400; // 增加畫布大小以容納更多間距
     canvas.width = canvasSize * scale;
     canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
@@ -93,18 +93,13 @@ function saveAsImage() {
     ctx.fillStyle = '#2b4b8c';
     ctx.fillRect(0, 0, canvasSize, canvasSize);
 
-    // 調整圓形位置以設置更小的間距
-    const circleRadius = 30;
-    const centerX = canvasSize / 2;
-    const centerY = canvasSize / 2;
-    const distance = circleRadius * 2 + 6; // 減少間距
-
+    // 調整圓形位置以增加間距
     const positions = [
-        {x: centerX, y: centerY},              // 中
-        {x: centerX - distance, y: centerY},   // 左
-        {x: centerX + distance, y: centerY},   // 右
-        {x: centerX, y: centerY - distance},   // 上
-        {x: centerX, y: centerY + distance}    // 下
+        {x: 200, y: 200},  // 中
+        {x: 80, y: 200},   // 左
+        {x: 320, y: 200},  // 右
+        {x: 200, y: 80},   // 上
+        {x: 200, y: 320}   // 下
     ];
 
     // 繪製棋子
@@ -117,20 +112,19 @@ function saveAsImage() {
             
             // 繪製圓形背景
             ctx.beginPath();
-            ctx.arc(x, y, circleRadius, 0, 2 * Math.PI);
+            ctx.arc(x, y, 40, 0, 2 * Math.PI); // 稍微增大圓圈尺寸
             ctx.fillStyle = 'white';
             ctx.fill();
             ctx.strokeStyle = isRed ? 'red' : 'black';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 3; // 保持邊框寬度
             ctx.stroke();
 
             // 繪製文字
-            ctx.font = 'bold 36px "Microsoft YaHei", "微軟正黑體", sans-serif';
+            ctx.font = 'bold 48px "Microsoft YaHei", "微軟正黑體", sans-serif'; // 調整字體大小
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
             
-            // 確保文字完全置中
             ctx.fillText(slotElement.textContent, x, y);
         }
     });
