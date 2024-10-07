@@ -82,9 +82,9 @@ function saveAsImage() {
     }
     const ctx = canvas.getContext('2d');
 
-    // 增加畫布大小以避免裁切
+    // 保持之前的解析度設置
     const scale = 10;
-    const canvasSize = 500; // 增加畫布大小
+    const canvasSize = 500; // 增加畫布大小以避免裁切
     canvas.width = canvasSize * scale;
     canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
@@ -112,15 +112,15 @@ function saveAsImage() {
             
             // 繪製圓形背景
             ctx.beginPath();
-            ctx.arc(x, y, 40, 0, 2 * Math.PI);
+            ctx.arc(x, y, 50, 0, 2 * Math.PI); // 保持圓圈大小
             ctx.fillStyle = 'white';
             ctx.fill();
             ctx.strokeStyle = isRed ? 'red' : 'black';
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 3; // 保持邊框寬度
             ctx.stroke();
 
             // 繪製文字
-            ctx.font = 'bold 48px "Microsoft YaHei", "微軟正黑體", sans-serif';
+            ctx.font = 'bold 60px "Microsoft YaHei", "微軟正黑體", sans-serif'; // 調整字體大小
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
