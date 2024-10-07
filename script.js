@@ -72,7 +72,7 @@ function undoLastSelection() {
 }
 
 function saveAsImage() {
-    console.log('开始保存图片');
+    console.log('開始保存圖片');
     const canvas = document.getElementById('captureCanvas');
     if (!canvas) {
         console.error('未找到canvas元素');
@@ -80,13 +80,19 @@ function saveAsImage() {
     }
     const ctx = canvas.getContext('2d');
 
-    // 设置canvas背景
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // 設置更高的解析度
+    const scale = 4;  // 增加4倍解析度
+    canvas.width = 150 * scale;
+    canvas.height = 150 * scale;
+    ctx.scale(scale, scale);
 
-    // 绘制选择区域的边框
+    // 設置canvas背景
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, 150, 150);
+
+    // 繪製選擇區域的邊框
     ctx.strokeStyle = '#ccc';
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 0.25;  // 保持線條細緻
     for (let i = 1; i < 3; i++) {
         ctx.beginPath();
         ctx.moveTo(i * 50, 0);
@@ -98,12 +104,12 @@ function saveAsImage() {
         ctx.stroke();
     }
 
-    // 绘制棋子
+    // 繪製棋子
     const slots = [1, 2, 3, 4, 5];
     slots.forEach((slot, index) => {
         const slotElement = document.getElementById(`slot-${slot}`);
         if (slotElement && slotElement.textContent) {
-            ctx.font = '24px Arial';
+            ctx.font = '24px "Microsoft YaHei", "微軟正黑體", sans-serif';  // 使用更適合中文的字體
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = slotElement.classList.contains('red-piece') ? 'red' : 'black';
@@ -119,18 +125,18 @@ function saveAsImage() {
         }
     });
 
-    // 创建下载链接
+    // 創建下載連結
     try {
         const dataUrl = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = '象棋选择.png';
+        link.download = '象棋選擇.png';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        console.log('图片已成功创建并触发下载');
+        console.log('圖片已成功創建並觸發下載');
     } catch (error) {
-        console.error('创建或下载图片时出错:', error);
+        console.error('創建或下載圖片時出錯:', error);
     }
 }
 
@@ -143,11 +149,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveBtn = document.getElementById('saveBtn');
     if (saveBtn) {
         saveBtn.onclick = function() {
-            console.log('保存按钮被点击');
+            console.log('保存按鈕被點擊');
             saveAsImage();
         };
     } else {
-        console.error('未找到保存按钮');
+        console.error('未找到保存按鈕');
     }
     
     document.addEventListener('keydown', (event) => {
