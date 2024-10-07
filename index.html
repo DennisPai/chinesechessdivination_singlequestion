@@ -17,12 +17,12 @@
 
         .container {
             display: flex;
-            gap: 40px; /* 增加間距 */
+            gap: 40px;
         }
 
         .selection-area {
-            width: 180px; /* 增加寬度以容納間距 */
-            height: 180px; /* 增加高度以容納間距 */
+            width: 180px;
+            height: 180px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(3, 1fr);
@@ -40,7 +40,7 @@
             font-weight: bold;
             border: 2px solid;
             background-color: white;
-            margin: auto; /* 添加外邊距以創建間距 */
+            margin: auto;
         }
 
         #slot-1 { grid-area: 2 / 2 / 3 / 3; }
@@ -63,7 +63,8 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            align-items: center; /* 居中對齊控制元素 */
+            align-items: center;
+            width: 300px; /* 增加控制區域的寬度 */
         }
 
         .chess-board {
@@ -89,33 +90,34 @@
         .button-group {
             display: flex;
             gap: 10px;
+            width: 100%;
         }
 
         .button {
-            padding: 5px 10px;
+            padding: 10px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            border: none;
+            border-radius: 5px;
         }
 
-        .small-button {
-            width: 30px;
-            height: 30px;
-            font-size: 14px;
+        .half-width-button {
+            flex: 1;
         }
 
         .green-button {
             background-color: #4CAF50;
             color: white;
-            border: none;
-            width: 40px;
+            width: 100%;
             height: 40px;
         }
 
         #textInput {
-            width: 200px; /* 增加寬度 */
+            width: 100%;
             padding: 10px;
-            font-size: 18px; /* 增加字體大小 */
+            font-size: 18px;
+            box-sizing: border-box;
         }
 
         #captureCanvas {
@@ -140,12 +142,12 @@
         </div>
         <div class="controls">
             <div id="chessBoard" class="chess-board"></div>
-            <input type="text" id="textInput" placeholder="輸入文字" class="text-input">
+            <input type="text" id="textInput" placeholder="在此輸入單卦問題" class="text-input">
             <div class="button-group">
-                <button id="undoBtn" class="button small-button">←</button>
-                <button id="resetBtn" class="button small-button">重置</button>
+                <button id="undoBtn" class="button half-width-button">←</button>
+                <button id="resetBtn" class="button half-width-button">重置</button>
             </div>
-            <button id="saveBtn" class="button green-button">✓</button>
+            <button id="saveBtn" class="button green-button">保存卦象</button>
         </div>
     </div>
     <canvas id="captureCanvas"></canvas>
