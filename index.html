@@ -21,13 +21,12 @@
         }
 
         .selection-area {
-            width: 170px; /* 稍微增加寬度以容納間距 */
-            height: 170px; /* 稍微增加高度以容納間距 */
+            width: 180px; /* 增加寬度以容納間距 */
+            height: 180px; /* 增加高度以容納間距 */
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(3, 1fr);
             background-color: transparent;
-            gap: 10px; /* 添加間距 */
         }
 
         .selection-slot {
@@ -41,6 +40,7 @@
             font-weight: bold;
             border: 2px solid;
             background-color: white;
+            margin: auto; /* 添加外邊距以創建間距 */
         }
 
         #slot-1 { grid-area: 2 / 2 / 3 / 3; }
@@ -86,17 +86,9 @@
             background-color: white;
         }
 
-        .text-input {
-            width: 100%;
-            padding: 10px;
-            font-size: 18px;
-            box-sizing: border-box;
-        }
-
         .button-group {
             display: flex;
             gap: 10px;
-            justify-content: center;
         }
 
         .button {
@@ -118,6 +110,12 @@
             border: none;
             width: 40px;
             height: 40px;
+        }
+
+        #textInput {
+            width: 200px; /* 增加寬度 */
+            padding: 10px;
+            font-size: 18px; /* 增加字體大小 */
         }
 
         #captureCanvas {
