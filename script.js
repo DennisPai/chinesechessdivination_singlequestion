@@ -90,37 +90,32 @@ function saveAsImage() {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, 150, 150);
 
-    // 繪製選擇區域的邊框
+    // 繪製選擇區域的圓形格子
     ctx.strokeStyle = '#ccc';
-    ctx.lineWidth = 0.25;  // 保持線條細緻
-    for (let i = 1; i < 3; i++) {
+    ctx.lineWidth = 2;
+    const positions = [
+        {x: 75, y: 75},  // 中
+        {x: 25, y: 75},  // 左
+        {x: 125, y: 75}, // 右
+        {x: 75, y: 25},  // 上
+        {x: 75, y: 125}  // 下
+    ];
+    positions.forEach(pos => {
         ctx.beginPath();
-        ctx.moveTo(i * 50, 0);
-        ctx.lineTo(i * 50, 150);
+        ctx.arc(pos.x, pos.y, 23, 0, 2 * Math.PI);
         ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(0, i * 50);
-        ctx.lineTo(150, i * 50);
-        ctx.stroke();
-    }
+    });
 
     // 繪製棋子
     const slots = [1, 2, 3, 4, 5];
     slots.forEach((slot, index) => {
         const slotElement = document.getElementById(`slot-${slot}`);
         if (slotElement && slotElement.textContent) {
-            ctx.font = '24px "Microsoft YaHei", "微軟正黑體", sans-serif';  // 使用更適合中文的字體
+            ctx.font = 'bold 24px "Microsoft YaHei", "微軟正黑體", sans-serif';  // 使用更適合中文的字體，並加粗
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = slotElement.classList.contains('red-piece') ? 'red' : 'black';
-            let x, y;
-            switch(index) {
-                case 0: x = 75; y = 75; break;  // 中
-                case 1: x = 25; y = 75; break;  // 左
-                case 2: x = 125; y = 75; break; // 右
-                case 3: x = 75; y = 25; break;  // 上
-                case 4: x = 75; y = 125; break; // 下
-            }
+            const {x, y} = positions[index];
             ctx.fillText(slotElement.textContent, x, y);
         }
     });
