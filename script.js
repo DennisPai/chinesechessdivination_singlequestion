@@ -71,6 +71,8 @@ function undoLastSelection() {
     }
 }
 
+// ... (前面的代碼保持不變)
+
 function saveAsImage() {
     console.log('開始保存圖片');
     const canvas = document.getElementById('captureCanvas');
@@ -82,7 +84,7 @@ function saveAsImage() {
 
     // 保持之前的解析度設置
     const scale = 10;
-    const canvasSize = 200; // 調整畫布大小以適應新的間距
+    const canvasSize = 180; // 調整畫布大小以適應新的間距
     canvas.width = canvasSize * scale;
     canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
@@ -91,11 +93,11 @@ function saveAsImage() {
     ctx.fillStyle = '#2b4b8c';
     ctx.fillRect(0, 0, canvasSize, canvasSize);
 
-    // 調整圓形位置以設置20px的間距
-    const circleRadius = 35;
+    // 調整圓形位置以設置更小的間距
+    const circleRadius = 30;
     const centerX = canvasSize / 2;
     const centerY = canvasSize / 2;
-    const distance = circleRadius * 2 + 20; // 20px 間距
+    const distance = circleRadius * 2 + 6; // 減少間距
 
     const positions = [
         {x: centerX, y: centerY},              // 中
@@ -119,17 +121,17 @@ function saveAsImage() {
             ctx.fillStyle = 'white';
             ctx.fill();
             ctx.strokeStyle = isRed ? 'red' : 'black';
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 2;
             ctx.stroke();
 
             // 繪製文字
-            ctx.font = 'bold 40px "Microsoft YaHei", "微軟正黑體", sans-serif';
+            ctx.font = 'bold 36px "Microsoft YaHei", "微軟正黑體", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
             
-            // 微調文字位置以確保完全置中
-            ctx.fillText(slotElement.textContent, x, y + 2);
+            // 確保文字完全置中
+            ctx.fillText(slotElement.textContent, x, y);
         }
     });
 
@@ -151,6 +153,8 @@ function saveAsImage() {
         console.error('創建或下載圖片時出錯:', error);
     }
 }
+
+// ... (其餘代碼保持不變)
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeChessBoard();
