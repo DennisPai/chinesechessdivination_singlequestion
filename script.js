@@ -87,12 +87,10 @@ function saveAsImage() {
     ctx.scale(scale, scale);
 
     // 設置canvas背景
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = '#2b4b8c';  // 改回原本的深藍色背景
     ctx.fillRect(0, 0, 150, 150);
 
     // 繪製選擇區域的圓形格子
-    ctx.strokeStyle = '#ccc';
-    ctx.lineWidth = 2;
     const positions = [
         {x: 75, y: 75},  // 中
         {x: 25, y: 75},  // 左
@@ -100,22 +98,29 @@ function saveAsImage() {
         {x: 75, y: 25},  // 上
         {x: 75, y: 125}  // 下
     ];
-    positions.forEach(pos => {
-        ctx.beginPath();
-        ctx.arc(pos.x, pos.y, 23, 0, 2 * Math.PI);
-        ctx.stroke();
-    });
 
     // 繪製棋子
     const slots = [1, 2, 3, 4, 5];
     slots.forEach((slot, index) => {
         const slotElement = document.getElementById(`slot-${slot}`);
         if (slotElement && slotElement.textContent) {
-            ctx.font = 'bold 24px "Microsoft YaHei", "微軟正黑體", sans-serif';  // 使用更適合中文的字體，並加粗
+            const {x, y} = positions[index];
+            const isRed = slotElement.classList.contains('red-piece');
+            
+            // 繪製圓形背景
+            ctx.beginPath();
+            ctx.arc(x, y, 25, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            ctx.strokeStyle = isRed ? 'red' : 'black';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // 繪製文字
+            ctx.font = 'bold 30px "Microsoft YaHei", "微軟正黑體", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = slotElement.classList.contains('red-piece') ? 'red' : 'black';
-            const {x, y} = positions[index];
+            ctx.fillStyle = isRed ? 'red' : 'black';
             ctx.fillText(slotElement.textContent, x, y);
         }
     });
