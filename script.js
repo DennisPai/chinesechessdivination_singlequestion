@@ -95,7 +95,7 @@ function saveAsImage() {
     const circleRadius = 35;
     const centerX = canvasSize / 2;
     const centerY = canvasSize / 2;
-    const distance = circleRadius * 2 + 20; // 20px 的間距
+    const distance = circleRadius * 2 + 20; // 20px 間距
 
     const positions = [
         {x: centerX, y: centerY},              // 中
@@ -128,12 +128,8 @@ function saveAsImage() {
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
             
-            // 使用 measureText 來精確計算文字位置
-            const textMetrics = ctx.measureText(slotElement.textContent);
-            const textHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
-            const yOffset = (textHeight / 2) - textMetrics.actualBoundingBoxAscent;
-            
-            ctx.fillText(slotElement.textContent, x, y - yOffset);
+            // 微調文字位置以確保完全置中
+            ctx.fillText(slotElement.textContent, x, y + 2);
         }
     });
 
