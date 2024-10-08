@@ -120,10 +120,10 @@ function saveAsImage() {
             // 繪製文字
             ctx.font = 'bold 50px "Microsoft YaHei", "微軟正黑體", sans-serif';
             ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle'+1;
+            ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
             
-            ctx.fillText(slotElement.textContent, x, y);
+            ctx.fillText(slotElement.textContent, x, y+1);
         }
     });
 
