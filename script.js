@@ -71,8 +71,6 @@ function undoLastSelection() {
     }
 }
 
-// ... (前面的代碼保持不變)
-
 function saveAsImage() {
     console.log('開始保存圖片');
     const canvas = document.getElementById('captureCanvas');
@@ -84,7 +82,7 @@ function saveAsImage() {
 
     // 保持高解析度
     const scale = 10;
-    const canvasSize = 400; // 增加畫布大小以容納更寬的間距
+    const canvasSize = 500; // 增加畫布大小以容納文字
     canvas.width = canvasSize * scale;
     canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
@@ -95,11 +93,11 @@ function saveAsImage() {
 
     // 調整圓形位置以增加間距
     const positions = [
-        {x: 200, y: 200},  // 中
-        {x: 80, y: 200},   // 左
-        {x: 320, y: 200},  // 右
-        {x: 200, y: 80},   // 上
-        {x: 200, y: 320}   // 下
+        {x: 250, y: 300},  // 中
+        {x: 130, y: 300},  // 左
+        {x: 370, y: 300},  // 右
+        {x: 250, y: 180},  // 上
+        {x: 250, y: 420}   // 下
     ];
 
     // 繪製棋子
@@ -112,15 +110,15 @@ function saveAsImage() {
             
             // 繪製圓形背景
             ctx.beginPath();
-            ctx.arc(x, y, 40, 0, 2 * Math.PI); // 增大圓圈尺寸
+            ctx.arc(x, y, 40, 0, 2 * Math.PI);
             ctx.fillStyle = 'white';
             ctx.fill();
             ctx.strokeStyle = isRed ? 'red' : 'black';
-            ctx.lineWidth = 3; // 調整邊框寬度
+            ctx.lineWidth = 3;
             ctx.stroke();
 
             // 繪製文字
-            ctx.font = 'bold 50px "Microsoft YaHei", "微軟正黑體", sans-serif'; // 增大字體大小
+            ctx.font = 'bold 50px "Microsoft YaHei", "微軟正黑體", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
@@ -129,16 +127,45 @@ function saveAsImage() {
         }
     });
 
-    // 獲取輸入的文字作為檔名
+    // 獲取輸入的文字
     const inputText = document.getElementById('textInput').value.trim();
-    const fileName = inputText ? `${inputText}.png` : '象棋選擇.png';
+
+    // 繪製輸入的文字
+    if (inputText) {
+        ctx.font = '30px "Microsoft YaHei", "微軟正黑體", sans-serif';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+
+        // 文字換行處理
+        const maxWidth = 450; // 最大寬度
+        const lineHeight = 40; // 行高
+        const words = inputText.split('');
+        let line = '';
+        let y = 50; // 起始y座標
+
+        for (let n = 0; n < words.length; n++) {
+            const testLine = line + words[n];
+            const metrics = ctx.measureText(testLine);
+            const testWidth = metrics.width;
+            if (testWidth > maxWidth && n > 0) {
+                ctx.fillText(line, canvasSize / 2, y);
+                line = words[n];
+                y += lineHeight;
+            }
+            else {
+                line = testLine;
+            }
+        }
+        ctx.fillText(line, canvasSize / 2, y);
+    }
 
     // 創建下載連結
     try {
         const dataUrl = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = fileName;
+        link.download = inputText ? `${inputText}.png` : '象棋選擇.png';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -147,8 +174,6 @@ function saveAsImage() {
         console.error('創建或下載圖片時出錯:', error);
     }
 }
-
-// ... (其餘代碼保持不變)
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeChessBoard();
