@@ -132,20 +132,20 @@ function saveAsImage() {
 
     // 繪製輸入的文字
     if (inputText) {
-        ctx.font = '30px "Microsoft YaHei", "微軟正黑體", sans-serif';
+        ctx.font = 'bold 35px "Microsoft YaHei", "微軟正黑體", sans-serif';
         ctx.fillStyle = 'white';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
 
         // 文字換行處理
         const maxWidth = 450; // 最大寬度
-        const lineHeight = 40; // 行高
+        const lineHeight = 50; // 增加行高以適應更大的字體
         const words = inputText.split('');
         let line = '';
         let y = 50; // 起始y座標
 
         for (let n = 0; n < words.length; n++) {
-            const testLine = line + words[n];
+            const testLine = line + (line ? ' ' : '') + words[n]; // 增加字間距
             const metrics = ctx.measureText(testLine);
             const testWidth = metrics.width;
             if (testWidth > maxWidth && n > 0) {
