@@ -54,9 +54,9 @@ function updateSelectionArea() {
 
 function resetSelection() {
     selectedPieces = [];
-    remainingPieces = chessPieces.map(piece => ({...piece})); // Create a deep copy
+    remainingPieces = [...chessPieces];
     updateSelectionArea();
-    document.querySelectorAll('.chess-piece').forEach((element, index) => {
+    document.querySelectorAll('.chess-piece').forEach(element => {
         element.style.visibility = 'visible';
     });
 }
@@ -65,7 +65,7 @@ function undoLastSelection() {
     if (selectedPieces.length > 0) {
         const lastPiece = selectedPieces.pop();
         const index = chessPieces.findIndex(p => p.name === lastPiece.name && p.color === lastPiece.color);
-        remainingPieces[index].limit++;
+        remainingPieces[index] = chessPieces[index];
         document.querySelector(`.chess-piece[data-index="${index}"]`).style.visibility = 'visible';
         updateSelectionArea();
     }
