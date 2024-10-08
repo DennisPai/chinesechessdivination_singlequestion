@@ -1,46 +1,110 @@
 body {
-    background-color: #2b4b8c; /* 改回原本的深藍色背景 */
+    background-color: #D3D3D3;
+    margin: 0;
+    font-family: "Microsoft YaHei", "微軟正黑體", Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: "Microsoft YaHei", "微軟正黑體", Arial, sans-serif;
+    min-height: 100vh;
 }
 
-.container {
+.main-container {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: -50px;
+}
+
+.header h1 {
+    font-size: 38px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.title-part1 {
+    color: black;
+}
+
+.title-part2 {
+    color: #3B6E98;
+}
+
+.header h2 {
+    font-size: 20px;
+    margin-top: 0;
+    color: #9304b0; /* 更改小字顏色為 #9304b0 */
+    font-weight: normal;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
 }
 
 .selection-area {
-    width: 150px;
-    height: 150px;
+    width: 270px;
+    height: 270px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    background-color: transparent;
+    gap: 15px;
 }
 
 .selection-slot {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: white;
+    border: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+#slot-1 { grid-area: 2 / 2 / 3 / 3; }
+#slot-2 { grid-area: 2 / 1 / 3 / 2; }
+#slot-3 { grid-area: 2 / 3 / 3 / 4; }
+#slot-4 { grid-area: 1 / 2 / 2 / 3; }
+#slot-5 { grid-area: 3 / 2 / 4 / 3; }
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 340px; /* 進一步增加控制區寬度 */
+}
+
+.chess-board {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.chess-piece {
+    width: 40px;
+    height: 40px;
+    border: 2px solid;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
-    border: 2px solid;
-    background-color: white; /* 確保棋子背景為白色 */
+    cursor: pointer;
+    background-color: white;
 }
-
-/* 指定每個位置的網格區域，並設置為圓形 */
-#slot-1 { grid-area: 2 / 2 / 3 / 3; } /* 中央 */
-#slot-2 { grid-area: 2 / 1 / 3 / 2; } /* 左 */
-#slot-3 { grid-area: 2 / 3 / 3 / 4; } /* 右 */
-#slot-4 { grid-area: 1 / 2 / 2 / 3; } /* 上 */
-#slot-5 { grid-area: 3 / 2 / 4 / 3; } /* 下 */
 
 .red-piece { 
     color: red; 
@@ -52,55 +116,51 @@ body {
     border-color: black;
 }
 
-/* 其他樣式保持不變 */
-.controls {
+.text-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.button-group {
     display: flex;
-    flex-direction: column;
     gap: 10px;
 }
 
-.chess-board {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-}
-
-.chess-piece {
-    width: 40px;
-    height: 40px;
-    border: 2px solid black;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    background-color: white;
-}
-
 .button {
-    padding: 5px 10px;
+    padding: 10px 20px;
     font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.button-group .button {
+    flex: 1;
 }
 
 .green-button {
-    background-color: #4CAF50;
+    background-color: #3B6E98; /* 更改 "保存卦象" 按鈕顏色為 #3B6E98 */
     color: white;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 100%;
 }
 
 #captureCanvas {
     display: none;
 }
 
-@media (max-width: 600px) {
-    .container {
+@media (max-width: 768px) {
+    .content {
         flex-direction: column;
+        align-items: center;
+    }
+
+    .controls {
+        margin-top: 20px;
+        width: 100%;
     }
 }

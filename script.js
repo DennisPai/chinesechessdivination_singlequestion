@@ -11,10 +11,12 @@ const chessPieces = [
 
 const keyMapping = 'QWERTYUASDFGHJ';
 let selectedPieces = [];
-let remainingPieces = [...chessPieces];
+let remainingPieces = [];
 
 function initializeChessBoard() {
     const chessBoard = document.getElementById('chessBoard');
+    chessBoard.innerHTML = ''; // 清空棋盤
+    remainingPieces = JSON.parse(JSON.stringify(chessPieces)); // 深拷貝初始棋子狀態
     chessPieces.forEach((piece, index) => {
         const pieceElement = document.createElement('div');
         pieceElement.className = `chess-piece ${piece.color}-piece`;
@@ -28,11 +30,10 @@ function initializeChessBoard() {
 function selectPiece(index) {
     const piece = remainingPieces[index];
     if (piece && piece.limit > 0 && selectedPieces.length < 5) {
-        selectedPieces.push(piece);
+        selectedPieces.push({...piece});
         updateSelectionArea();
         piece.limit--;
         if (piece.limit === 0) {
-            remainingPieces[index] = null;
             document.querySelector(`.chess-piece[data-index="${index}"]`).style.visibility = 'hidden';
         }
     }
@@ -54,18 +55,15 @@ function updateSelectionArea() {
 
 function resetSelection() {
     selectedPieces = [];
-    remainingPieces = [...chessPieces];
+    initializeChessBoard(); // 重新初始化棋盤
     updateSelectionArea();
-    document.querySelectorAll('.chess-piece').forEach(element => {
-        element.style.visibility = 'visible';
-    });
 }
 
 function undoLastSelection() {
     if (selectedPieces.length > 0) {
         const lastPiece = selectedPieces.pop();
         const index = chessPieces.findIndex(p => p.name === lastPiece.name && p.color === lastPiece.color);
-        remainingPieces[index] = chessPieces[index];
+        remainingPieces[index].limit++;
         document.querySelector(`.chess-piece[data-index="${index}"]`).style.visibility = 'visible';
         updateSelectionArea();
     }
@@ -82,13 +80,13 @@ function saveAsImage() {
 
     // 保持高解析度
     const scale = 10;
-    const canvasSize = 500; // 增加畫布大小以容納文字
+    const canvasSize = 500;
     canvas.width = canvasSize * scale;
     canvas.height = canvasSize * scale;
     ctx.scale(scale, scale);
 
     // 設置canvas背景
-    ctx.fillStyle = '#2b4b8c';
+    ctx.fillStyle = '#D2D2D2'; // 更改背景色為 #D2D2D2
     ctx.fillRect(0, 0, canvasSize, canvasSize);
 
     // 調整圓形位置以增加間距
@@ -110,7 +108,7 @@ function saveAsImage() {
             
             // 繪製圓形背景
             ctx.beginPath();
-            ctx.arc(x, y, 40, 0, 2 * Math.PI);
+            ctx.arc(x, y, 45, 0, 2 * Math.PI);
             ctx.fillStyle = 'white';
             ctx.fill();
             ctx.strokeStyle = isRed ? 'red' : 'black';
@@ -133,16 +131,16 @@ function saveAsImage() {
     // 繪製輸入的文字
     if (inputText) {
         ctx.font = 'bold 35px "Microsoft YaHei", "微軟正黑體", sans-serif';
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'black'; // 更改文字顏色為黑色
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
 
         // 文字換行處理
-        const maxWidth = 450; // 最大寬度
-        const lineHeight = 50; // 行高
+        const maxWidth = 450;
+        const lineHeight = 50;
         const words = inputText.split('');
         let line = '';
-        let y = 25; // 起始y座標調整為25
+        let y = 25;
 
         for (let n = 0; n < words.length; n++) {
             const testLine = line + words[n];
