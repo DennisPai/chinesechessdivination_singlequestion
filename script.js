@@ -139,13 +139,13 @@ function saveAsImage() {
 
         // 文字換行處理
         const maxWidth = 450; // 最大寬度
-        const lineHeight = 50; // 增加行高以適應更大的字體
+        const lineHeight = 50; // 行高
         const words = inputText.split('');
         let line = '';
-        let y = 50; // 起始y座標
+        let y = 25; // 起始y座標調整為25
 
         for (let n = 0; n < words.length; n++) {
-            const testLine = line + (line ? ' ' : '') + words[n]; // 增加字間距
+            const testLine = line + words[n];
             const metrics = ctx.measureText(testLine);
             const testWidth = metrics.width;
             if (testWidth > maxWidth && n > 0) {
