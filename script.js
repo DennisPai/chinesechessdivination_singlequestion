@@ -123,7 +123,7 @@ function saveAsImage() {
             ctx.textBaseline = 'middle';
             ctx.fillStyle = isRed ? 'red' : 'black';
             
-            ctx.fillText(slotElement.textContent, x, y+5);
+            ctx.fillText(slotElement.textContent, x, y+3);
         }
     });
 
